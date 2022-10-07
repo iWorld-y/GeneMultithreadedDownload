@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.eugene.core.Downloader;
 import com.eugene.util.HttpUtils;
+import com.eugene.util.LogUtils;
 
 /**
  * @author Eugene
@@ -21,6 +22,7 @@ public class Main {
         if (args == null || args.length == 0) {
             Scanner sc = new Scanner(System.in);
             do {
+                (new LogUtils()).info("请输入下载地址");
                 System.out.println("请输入下载链接:\t");
                 url = sc.next();
             } while (url == null);

@@ -2,6 +2,7 @@ package com.eugene.core;
 
 import com.eugene.constant.Constant;
 import com.eugene.util.HttpUtils;
+import com.eugene.util.LogUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -19,7 +20,7 @@ public class Downloader {
         String httpFileName = (new HttpUtils(url).getHttpFileName());
         // 构造文件的下载路径
         httpFileName = Constant.getDownloadPATH() + httpFileName;
-
+        LogUtils logUtils = new LogUtils();
         // 获取链接对象
         HttpURLConnection httpURLConnection = null;
         try {
@@ -32,15 +33,15 @@ public class Downloader {
              BufferedInputStream bin = new BufferedInputStream(in);
              FileOutputStream fout = new FileOutputStream(httpFileName);
              BufferedOutputStream bout = new BufferedOutputStream(fout)) {
+            logUtils.info("开始下载: {}", url);
             int len = -1;
             while ((len = bin.read()) != -1) {
                 bout.write(len);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("下载文件不存在. ");
+            logUtils.error("下载文件不存在: {}", url);
         } catch (Exception e) {
-            System.out.println("下载失败");
+            logUtils.error("下载失败");
         } finally {
             // 关闭链接对象
             if (httpURLConnection != null) {
